@@ -4,6 +4,8 @@ import br.com.vrteste.notifications.dto.NotificationRequest;
 import br.com.vrteste.notifications.dto.NotificationResponse;
 import br.com.vrteste.notifications.service.NotificationService;
 import jakarta.validation.Valid;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +24,6 @@ public class NotificationController {
         try {
             System.out.println("Recebida requisição para processar notificação: " + request.getMensagemId());
             
-            // Envia mensagem para a fila de entrada
             notificationService.sendToProcessingQueue(request);
             
             NotificationResponse response = new NotificationResponse(
@@ -45,7 +46,7 @@ public class NotificationController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
-    
+
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Sistema de Notificações funcionando!");
