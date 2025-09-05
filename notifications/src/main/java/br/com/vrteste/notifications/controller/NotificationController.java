@@ -2,9 +2,11 @@ package br.com.vrteste.notifications.controller;
 
 import br.com.vrteste.notifications.dto.NotificationRequest;
 import br.com.vrteste.notifications.dto.NotificationResponse;
+import br.com.vrteste.notifications.dto.StatusMessage;
 import br.com.vrteste.notifications.service.NotificationService;
 import jakarta.validation.Valid;
 
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,6 +49,14 @@ public class NotificationController {
         }
     }
 
+    @GetMapping("/status/{mensagemId}")
+    public ResponseEntity<StatusMessage> getStatus(@PathVariable String mensagemId) {
+        Optional<StatusMessage> status = notificationService.getStatus(mensagemId);
+        return status.map(ResponseEntity::ok)
+                     .orElse(ResponseEntity.notFound().build());
+    }
+
+    
     @GetMapping("/health")
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("Sistema de Notificações funcionando!");

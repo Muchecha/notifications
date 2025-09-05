@@ -5,6 +5,11 @@ import br.com.vrteste.notifications.config.RabbitMQConfig;
 import br.com.vrteste.notifications.dto.NotificationRequest;
 import br.com.vrteste.notifications.dto.ProcessMessage;
 import br.com.vrteste.notifications.dto.StatusMessage;
+
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +23,8 @@ public class NotificationService {
 
     @Autowired
     private RabbitMQConfig rabbitMQConfig;
+
+    private final Map<String, StatusMessage> statusStore = new ConcurrentHashMap<>();
 
     public void sendToProcessingQueue(NotificationRequest request) {
         ProcessMessage message = new ProcessMessage(
@@ -74,10 +81,10 @@ public class NotificationService {
         System.out.println("Timestamp: " + statusMessage.getTimestamp());
         System.out.println("====================");
 
-        // Aqui você pode implementar lógica adicional como:
-        // - Salvar no banco de dados
-        // - Notificar outros sistemas
-        // - Enviar emails ou notificações push
-        // - Atualizar cache/redis
+        statusStore.put(statusMessage.getMensagemId(), statusMessage);
+    }
+
+    public Optional<StatusMessage> getStatus(String mensagemId) {
+        return Optional.ofNullable(statusStore.get(mensagemId));
     }
 }
