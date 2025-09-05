@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
 @EnableRabbit
 public class RabbitMQConfig {
     
-    public static final String QUEUE_ENTRADA = "fila.notificacao.entrada.joao";
-    public static final String QUEUE_STATUS = "fila.notificacao.status.joao";
+    public static final String QUEUE_ENTRADA = "fila.notificacao.entrada";
+    public static final String QUEUE_STATUS = "fila.notificacao.status";
     
     @Bean
     public Queue queueEntrada() {
