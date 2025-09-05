@@ -114,3 +114,5 @@ Escolha uma licença (por exemplo MIT) e adicione `LICENSE` se desejar abrir o p
 
 ---
 Arquivo gerado automaticamente — ajuste texto, badges e links conforme necessário antes de publicar no GitHub.
+
+Feito com carrinho <3
